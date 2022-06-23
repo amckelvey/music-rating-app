@@ -51,4 +51,8 @@ User.init(
   }
 );
 
+<<<<<<< HEAD
 module.exports = User;
+=======
+module.exports = User;
+>>>>>>> bcf1e900e66bb23385764a8f42f4006ffe4e0370
