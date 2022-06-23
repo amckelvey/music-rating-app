@@ -6,11 +6,12 @@ const logout = async () => {
   });
 
   if (response.ok) {
-    // replace the logout link with login if logged out
-    document.location.replace('/login');
+    // being us back to the home page after logging out
+    document.location.replace('/');
   } else {
     alert('Failed to log out');
   }
 };
 
 document.querySelector('#logout').addEventListener('click', logout);
+
