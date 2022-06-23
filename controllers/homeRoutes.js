@@ -5,18 +5,7 @@ const withAuth = require('../utils/auth');
 // Only allow a get request if the user is logged in
 router.get('/', async (req, res) => {
   try {
-    const userData = await User.findAll({
-      attributes: { exclude: ['password'] },
-      order: [['name', 'ASC']],
-    });
-
-    const users = userData.map((project) => project.get({ plain: true }));
-
-    res.render('homepage', {
-      users,
-      // when homepage renders set attribute logged_in to true
-      logged_in: req.session.logged_in,
-    });
+    res.render('homepage', {});
   } catch (err) {
     res.status(500).json(err);
   }
