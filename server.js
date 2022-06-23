@@ -1,4 +1,3 @@
-
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
@@ -8,7 +7,6 @@ const helpers = require('./utils/helpers');
 
 const sequelize = require('./config/connection');
 
-// a constructor we require to store cookies
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const app = express();
@@ -16,7 +14,6 @@ const PORT = process.env.PORT || 3001;
 
 const hbs = exphbs.create({ helpers });
 
-// Declare a session and its properties for use later in our middleware
 const sess = {
   secret: 'Super secret secret',
   cookie: {},
@@ -27,7 +24,6 @@ const sess = {
   })
 };
 
-// Middleware for creating a user session
 app.use(session(sess));
 
 app.engine('handlebars', hbs.engine);
