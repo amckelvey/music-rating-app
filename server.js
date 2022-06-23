@@ -8,7 +8,6 @@ const helpers = require('./utils/helpers');
 
 const sequelize = require('./config/connection');
 
-// TODO: Add a comment describing the functionality of this expression
 // a constructor we require to store cookies
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
@@ -17,7 +16,6 @@ const PORT = process.env.PORT || 3001;
 
 const hbs = exphbs.create({ helpers });
 
-// TODO: Add a comment describing the functionality of this object
 // Declare a session and its properties for use later in our middleware
 const sess = {
   secret: 'Super secret secret',
@@ -29,7 +27,6 @@ const sess = {
   })
 };
 
-// TODO: Add a comment describing the functionality of this statement
 // Middleware for creating a user session
 app.use(session(sess));
 
