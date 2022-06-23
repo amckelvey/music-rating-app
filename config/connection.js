@@ -3,7 +3,6 @@ require('dotenv').config();
 
 let sequelize;
 
-
 // We will need to add the JAWSDB addon in heroku to make our database accessible to heroku. This requires a credit card entered but is a free feature.
 if (process.env.JAWSDB_URL) {
   sequelize = new Sequelize(process.env.JAWSDB_URL);
