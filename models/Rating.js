@@ -5,7 +5,7 @@ class Rating extends Model {}
 
 module.exports = Rating;
 
-Painting.init(
+Rating.init(
   {
     // id. Integer, doesn't allow null values, set as primary key uses auto increment
     id: {
