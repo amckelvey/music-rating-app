@@ -8,10 +8,12 @@ const { User, Rating, Review } = require('../../models');
 
 // POST /api/review/
 // Receives reivew info in the request
-// creates a new rating
+// user needs to be logged in
+// creates a new review
 
 // DELETE /api/review/:id
 // Receives a review id
+// user needs to be logged in
 // deletes the review from the database
 
 module.exports = router;

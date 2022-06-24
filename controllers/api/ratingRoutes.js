@@ -2,23 +2,27 @@ const router = require('express').Router();
 const { User, Rating } = require('../../models');
 
 
-// GET /api/rating/:album_id
+// GET /api/rating/average/:album_id
 // Receives a spotify album id
-// returns the ratings scores of that album
+// returns the average score of that album
 // req.params.album_id
-router.get('/:album_id', async (req, res) => {
+router.get('/average/:album_id', async (req, res) => {
   try {
     console.log("Get Ratings for album");
-    console.log("Album id is: " + req.params.album_id);
-    const dbscoreData = await Rating.findAll({
+    const scoreData = await Rating.findAll({
       attributes: ['score'],
       where: {
         album_id: req.params.album_id
       }
     });
-
-    // const scoreData = dbscoreData.get({ plain: true });
-    res.status(200).json(dbscoreData);
+    let scores = scoreData.map((score) => score.score);
+    let total = 0;
+    for(let i = 0; i < scores.length; i++) {
+      total += scores[i];
+    }
+    const rawAvg = total / scores.length;
+    const average = Math.round(rawAvg * 10) / 10
+    res.status(200).json(average);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -27,15 +31,14 @@ router.get('/:album_id', async (req, res) => {
 
 // POST /api/rating/
 // Receives rating info in the request
+// checks if the user is logged in
 // creates a new rating
+
 
 // PUT /api/rating/:id
 // Receives rating a rating id, will need to check the user_id and album_id
+// checks if the user is logged in
 // updates an existing rating
-
-//
-
-
 
 
 
