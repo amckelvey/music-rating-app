@@ -42,7 +42,11 @@ Rating.init(
         model: 'user',
         key: 'id',
       }
-    }
+    },
+    review: {
+      type: DataTypes.TEXT,
+      // can be null
+    },
   },
   {
     sequelize,
