@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "seed": "node seeds/seed.js",
-    "heroku-postbuild": "npm run seed"
+    "heroku-postbuild": "npm run seed",
+    "watch": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "express-handlebars": "^5.2.0",
     "express-session": "^1.17.1",
     "mysql2": "^2.2.5",
+    "nodemon": "^2.0.18",
     "sequelize": "^6.3.5"
   }
 }

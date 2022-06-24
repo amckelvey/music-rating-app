@@ -30,11 +30,28 @@ router.get('/average/:album_id', async (req, res) => {
   }
 });
 
-// // GET /api/rating/:user/:album_id
+// // GET /api/rating/:user_id/:album_id
 // Receives a spotify album id, and user_id through the req body
 // uses findOne
-// returns the average score of that album
+// returns review score for the one album
 // req.params.album_id
+router.get('/:user_id/:album_id', async (req, res) => {
+  try {
+    console.log("Get Ratings for album");
+    const scoreData = await Rating.findOne({
+      attributes: ['score'],
+      where: {
+        album_id: req.params.album_id,
+        user_id: req.params.user_id
+      }
+    });
+    const { score } = scoreData.get({ plain: true });
+    res.status(200).json(score);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
 
 // POST /api/rating/
 // Receives rating info in the request
