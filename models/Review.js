@@ -28,11 +28,7 @@ Review.init(
       type: DataTypes.STRING,
       allowNull: false
     },
-    // review. Text. Can be null.
-    header: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
+    
     body: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -51,6 +47,6 @@ Review.init(
     sequelize,
     freezeTableName: true,
     underscored: true,
-    modelName: 'rating',
+    modelName: 'review',
   }
 );
