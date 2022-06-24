@@ -57,6 +57,16 @@ router.get('/:user_id/:album_id', async (req, res) => {
 // Receives rating info in the request
 // checks if the user is logged in
 // creates a new rating
+router.post('/', async (req, res) => {
+  // create a new category
+  try {
+    const ratingData = await Rating.create(req.body);
+    res.status(200).json(ratingData);
+  } catch (err) {
+      res.status(500).json(err);
+      console.log(err);
+  }
+});
 
 
 // PUT /api/rating/:id
@@ -68,7 +78,7 @@ router.get('/:user_id/:album_id', async (req, res) => {
 
 module.exports = router;
 
-// this may need to be done in another file
+// this may need to be done in another file, using spotify routes
 
 // GET /api/rating/:artist
 // Receives an artist name input by the user
