@@ -3,14 +3,12 @@
     "score": "6",
     "album_id": "1TKCBDHIWLiqjWTxomqniD",
     "artist_id": "2ye2Wgw4gimLv2eAKyk1NB",
-    "review": "It's aight, too long.",
     "user_id": 1
   },
   {
     "score": "10",
     "album_id": "4Cn4T0onWhfJZwWVzU5a2t",
     "artist_id": "2ye2Wgw4gimLv2eAKyk1NB",
-    "review": "A childhood favorite",
     "user_id": 3
   },
   {
@@ -23,8 +21,19 @@
     "score": "10",
     "album_id": "4LaRYkT4oy47wEuQgkLBul",
     "artist_id": "2d0hyoQ5ynDBnkvAbJKORj",
-    "review": "A childhood favorite",
     "user_id": 5
+  },
+  {
+    "score": "5",
+    "album_id": "4LaRYkT4oy47wEuQgkLBul",
+    "artist_id": "2d0hyoQ5ynDBnkvAbJKORj",
+    "user_id": 1
+  },
+  {
+    "score": "7",
+    "album_id": "4LaRYkT4oy47wEuQgkLBul",
+    "artist_id": "2d0hyoQ5ynDBnkvAbJKORj",
+    "user_id": 4
   }
 ]
   
