@@ -1,10 +1,16 @@
 const router = require('express').Router();
-const { User, Rating, Review } = require('../../models');
+const { User, Rating} = require('../../models');
 
 
 // GET /api/review/:album_id
 // Receives a spotify album id
-// recevis an array of objects with review text, their associated ratings, and usernames who wrote them
+// returns an array of objects with review text, their associated ratings, and usernames who wrote them
+
+// GET /api/review/byUser/:album_id
+// user_id would passed in via the request object
+// returns the id, text body of a review for that album and user
+
+// findAll, attributes username, body, score; where album_id and user_id matches
 
 // POST /api/review/
 // Receives reivew info in the request
