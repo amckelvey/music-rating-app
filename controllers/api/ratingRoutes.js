@@ -22,12 +22,19 @@ router.get('/average/:album_id', async (req, res) => {
     }
     const rawAvg = total / scores.length;
     const average = Math.round(rawAvg * 10) / 10
+    // also return number of votes
     res.status(200).json(average);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
 });
+
+// // GET /api/rating/:user/:album_id
+// Receives a spotify album id, and user_id through the req body
+// uses findOne
+// returns the average score of that album
+// req.params.album_id
 
 // POST /api/rating/
 // Receives rating info in the request
