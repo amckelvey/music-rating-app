@@ -1,11 +1,11 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Rating extends Model {}
+class Review extends Model {}
 
-module.exports = Rating;
+module.exports = Review;
 
-Rating.init(
+Review.init(
   {
     // id. Integer, doesn't allow null values, set as primary key uses auto increment
     id: {
@@ -14,14 +14,13 @@ Rating.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    // score. Integer, doesn't allow null values, must be between 1 and 10
-    score: {
+    // rating: the associated rating to the review 
+    rating_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        isInt: true,
-        max: 10,                 
-        min: 0 
+      references: {
+        model: 'rating',
+        key: 'id',
       }
     },
     // album id (from spotify). String. Doesn't allow null values
@@ -29,10 +28,10 @@ Rating.init(
       type: DataTypes.STRING,
       allowNull: false
     },
-    // artist id (from spotify). String. Doesn't allow null values
-    artist_id: {
-      type: DataTypes.STRING,
-      allowNull: false
+    
+    body: {
+      type: DataTypes.TEXT,
+      allowNull: false,
     },
     // user_id. Integer. Doesn't allow null. Foreign key to user model.
     user_id: {
@@ -48,6 +47,6 @@ Rating.init(
     sequelize,
     freezeTableName: true,
     underscored: true,
-    modelName: 'rating',
+    modelName: 'review',
   }
 );
