@@ -6,7 +6,7 @@ const { User, Rating} = require('../../models');
 // Receives a spotify album id
 // returns an array of objects with review text, their associated ratings, and usernames who wrote them
 
-// GET /api/review/byUser/:album_id
+// GET /api/review/:user/:album_id
 // user_id would passed in via the request object
 // returns the id, text body of a review for that album and user
 
@@ -20,6 +20,9 @@ const { User, Rating} = require('../../models');
 // DELETE /api/review/:id
 // Receives a review id
 // user needs to be logged in
-// deletes the review from the database
+// setting a review to null
 
 module.exports = router;
+
+// dua lipa artist_id 6M2wZ9GZgrQXHCFfjv46we
+// future nostalgia album_id 7fJJK56U9fHixgO0HQkhtI
