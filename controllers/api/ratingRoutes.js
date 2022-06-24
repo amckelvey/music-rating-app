@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { User, Rating } = require('../../models');
 
 
-// GET /api/rating/:album_id
+// GET /api/rating/average/:album_id
 // Receives a spotify album id
 // returns the average score of that album
 // req.params.album_id
@@ -31,15 +31,14 @@ router.get('/average/:album_id', async (req, res) => {
 
 // POST /api/rating/
 // Receives rating info in the request
+// checks if the user is logged in
 // creates a new rating
+
 
 // PUT /api/rating/:id
 // Receives rating a rating id, will need to check the user_id and album_id
+// checks if the user is logged in
 // updates an existing rating
-
-//
-
-
 
 
 
