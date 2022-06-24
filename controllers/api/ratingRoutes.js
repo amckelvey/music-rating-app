@@ -4,21 +4,25 @@ const { User, Rating } = require('../../models');
 
 // GET /api/rating/:album_id
 // Receives a spotify album id
-// returns the ratings scores of that album
+// returns the average score of that album
 // req.params.album_id
-router.get('/:album_id', async (req, res) => {
+router.get('/average/:album_id', async (req, res) => {
   try {
     console.log("Get Ratings for album");
-    console.log("Album id is: " + req.params.album_id);
-    const dbscoreData = await Rating.findAll({
+    const scoreData = await Rating.findAll({
       attributes: ['score'],
       where: {
         album_id: req.params.album_id
       }
     });
-
-    // const scoreData = dbscoreData.get({ plain: true });
-    res.status(200).json(dbscoreData);
+    let scores = scoreData.map((score) => score.score);
+    let total = 0;
+    for(let i = 0; i < scores.length; i++) {
+      total += scores[i];
+    }
+    const rawAvg = total / scores.length;
+    const average = Math.round(rawAvg * 10) / 10
+    res.status(200).json(average);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
