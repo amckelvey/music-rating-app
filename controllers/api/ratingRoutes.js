@@ -102,8 +102,3 @@ module.exports = router;
 
 // this may need to be done in another file, using spotify routes
 
-// GET /api/rating/:artist
-// Receives an artist name input by the user
-// does a GET /v1/search search query to spotify to get the artist_id
-// does a GET /v1/artists/{artist_id}/albums request to get album info
-// Returns the relevant album info
