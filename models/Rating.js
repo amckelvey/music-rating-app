@@ -34,11 +34,6 @@ Rating.init(
       type: DataTypes.STRING,
       allowNull: false
     },
-    // review. Text. Can be null.
-    review: {
-      type: DataTypes.TEXT,
-      // allowNUll defaults to true
-    },
     // user_id. Integer. Doesn't allow null. Foreign key to user model.
     user_id: {
       type: DataTypes.INTEGER,
