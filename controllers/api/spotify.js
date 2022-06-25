@@ -1,4 +1,4 @@
-var SpotifyWebApi = require('spotify-web-api-node');
+//var SpotifyWebApi = require('spotify-web-api-node');
 
 // GET /api/rating/:artist
 // Receives an artist name input by the user
