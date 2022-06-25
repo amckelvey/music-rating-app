@@ -2,6 +2,7 @@ var SpotifyWebApi = require('spotify-web-api-node');
 const router = require('express').Router();
 
 // will likely need to move this
+// copied from https://github.com/thelinmichael/spotify-web-api-node/blob/master/examples/access-token-using-client-credentials.js
 async function spotifyAuthorize() {
   var clientId = 'b8613864536c4491b058d23befbec540',
   clientSecret = 'fadd7cafd3d840d7b4d14180fc84ebb4';
@@ -56,6 +57,22 @@ router.get('/artist/:artist', async (req, res) => {
     const artistId = searchArtistData.body.artists.items[0].id;
     console.log(artistId);
     const artistData = await spotifyApi.getArtist(artistId);
+
+    res.status(200).json(artistData.body);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+// GET /api/spotify/related/:artist_id
+// Receives an artist id input by the user
+// does a GET /v1/artists/{id}/related-artists to get related artist info
+router.get('/related/:artist_id', async (req, res) => {
+  try {
+    console.log('/api/spotify/related/' + req.params.artist_id);
+    const spotifyApi = await spotifyAuthorize();
+    const artistData = await spotifyApi.getArtistRelatedArtists(req.params.artist_id);
 
     res.status(200).json(artistData.body);
   } catch (err) {
