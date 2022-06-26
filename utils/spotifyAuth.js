@@ -2,7 +2,6 @@ var SpotifyWebApi = require('spotify-web-api-node');
 
 // copied from https://github.com/thelinmichael/spotify-web-api-node/blob/master/examples/access-token-using-client-credentials.js
 const spotifyAuth = async (req, res, next) => {
-  // If not logged in then redirect them back to /login page
   if (!req.session.spotify_token || Date.now() > req.session.spotify_token_expires) {
     var clientId = 'b8613864536c4491b058d23befbec540',
     clientSecret = 'fadd7cafd3d840d7b4d14180fc84ebb4';
