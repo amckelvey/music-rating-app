@@ -35,7 +35,7 @@ router.get('/:album_id', async (req, res) => {
   }
 });
 
-// GET /api/review/:user/:album_id
+// GET /api/reviews/:user/:album_id
 // user_id would passed in via the request object
 // returns the id, text body of a review for that album and user
 router.get('/:user_id/:album_id', async (req, res) => {
@@ -64,7 +64,7 @@ router.get('/:user_id/:album_id', async (req, res) => {
   }
 });
 
-// POST /api/review/
+// POST /api/reviews/
 // Receives reivew info in the request
 // user needs to be logged in
 // creates a new review
@@ -79,7 +79,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// DELETE /api/review/:id
+// DELETE /api/reviews/:id
 // Receives a review id
 // user needs to be logged in
 // setting a review to null
