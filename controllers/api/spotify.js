@@ -25,7 +25,8 @@ router.get('/albums/:artist', spotifyAuth, async (req, res) => {
       clientId: req.session.spotifyApi._credentials.clientId,
       clientSecret: req.session.spotifyApi._credentials.clientSecret,
     });
-    spotifyApi.setAccessToken(req.session.spotifyApi._credentials.accessToken);
+     // Save the access token so that it's used in future calls
+    spotifyApi.setAccessToken(req.session.spotify_token);
     const searchArtistData = await spotifyApi.searchArtists(req.params.artist, {limit: 1});
     const artistId = searchArtistData.body.artists.items[0].id;
     const albumData = await spotifyApi.getArtistAlbums(artistId ,{include_groups: 'album', market: 'US'});
@@ -47,7 +48,7 @@ router.get('/artist/:artist', spotifyAuth, async (req, res) => {
       clientId: req.session.spotifyApi._credentials.clientId,
       clientSecret: req.session.spotifyApi._credentials.clientSecret,
     });
-    spotifyApi.setAccessToken(req.session.spotifyApi._credentials.accessToken);
+    spotifyApi.setAccessToken(req.session.spotify_token);
     const searchArtistData = await spotifyApi.searchArtists(req.params.artist, {limit: 1});
     const artistId = searchArtistData.body.artists.items[0].id;
     const artistData = await spotifyApi.getArtist(artistId);
@@ -68,7 +69,7 @@ router.get('/related/:artist_id', spotifyAuth, async (req, res) => {
       clientId: req.session.spotifyApi._credentials.clientId,
       clientSecret: req.session.spotifyApi._credentials.clientSecret,
     });
-    spotifyApi.setAccessToken(req.session.spotifyApi._credentials.accessToken);
+    spotifyApi.setAccessToken(req.session.spotify_token);
     const artistData = await spotifyApi.getArtistRelatedArtists(req.params.artist_id);
 
     res.status(200).json(artistData.body);
