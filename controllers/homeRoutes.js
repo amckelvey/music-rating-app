@@ -4,7 +4,7 @@ const { User, Rating } = require('../models');
 const spotifyAuth = require('../utils/spotifyAuth');
 const { Op } = require("sequelize");
 
-
+// GET http://localhost:3001/
 // Only allow a get request if the user is logged in
 router.get('/', spotifyAuth, async (req, res) => {
   console.log("In the home route");
@@ -41,7 +41,8 @@ router.get('/', spotifyAuth, async (req, res) => {
   }
 });
 
-
+// first do GET http://localhost:3001/api/spotify/search/artist_name to get the artist ID
+// http://localhost:3001/artist/artist_id
 // Receives an artist id
 router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
   console.log("In the artist route");
@@ -132,6 +133,7 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
   }
 });
 
+// http://localhost:3001/album/album_id
 router.get('/album/:album_id', async (req, res) => {
   try {
     const spotifyApi = new SpotifyWebApi({
