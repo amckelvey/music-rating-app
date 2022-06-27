@@ -91,15 +91,27 @@ router.get('/new-releases/', spotifyAuth, async (req, res) => {
     });
     spotifyApi.setAccessToken(req.session.spotify_token);
     const newReleaseData = await spotifyApi.getNewReleases({ limit :10, country: 'US' });
-
-    res.status(200).json(newReleaseData.body);
+    const newReleasesArray = newReleaseData.body.albums.items;
+    const myArray = [];
+    for (let i = 0; i < newReleasesArray.length; i++) {
+      const myObj = {
+        albumType: newReleasesArray[i].album_type,
+        albumTitle: newReleasesArray[i].name,
+        spotifyUrl: newReleasesArray[i].external_urls.spotify,
+        artistName: newReleasesArray[i].artists[0].name,
+        artistID: newReleasesArray[i].artists[0].id,
+        albumArtUrl: newReleasesArray[i].images[0].url,
+        releaseDate: newReleasesArray[i].release_date,
+        numTracks: newReleasesArray[i].total_tracks
+      }
+      myArray.push(myObj);
+    }
+    res.status(200).json(myArray);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
 });
-
-
 
 // get album tracks
 // GET /api/spotify/album-tracks/:album_id
@@ -115,13 +127,27 @@ router.get('/album-tracks/:album_id', spotifyAuth, async (req, res) => {
     const albumID = req.params.album_id;
     const trackData = await spotifyApi.getAlbumTracks(albumID);
     const trackArray = trackData.body.items;
-
-    res.status(200).json(trackArray);
+    const myArray = [];
+    for (let i = 0; i < trackArray.length; i++) {
+      const myObj = {
+        durationMs: millisToMinutesAndSeconds(trackArray[i].duration_ms),
+        name: trackArray[i].name,
+        trackNumber: trackArray[i].track_number
+      }
+      myArray.push(myObj);
+    }
+    res.status(200).json(myArray);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
 });
+
+function millisToMinutesAndSeconds(millis) {
+  var minutes = Math.floor(millis / 60000);
+  var seconds = ((millis % 60000) / 1000).toFixed(0);
+  return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
 
 
 
