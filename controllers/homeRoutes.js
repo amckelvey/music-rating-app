@@ -2,8 +2,9 @@ var SpotifyWebApi = require('spotify-web-api-node');
 const router = require('express').Router();
 const { User, Rating } = require('../models');
 const spotifyAuth = require('../utils/spotifyAuth');
+const { Op } = require("sequelize");
 
-
+// GET http://localhost:3001/
 // Only allow a get request if the user is logged in
 router.get('/', spotifyAuth, async (req, res) => {
   console.log("In the home route");
@@ -40,7 +41,8 @@ router.get('/', spotifyAuth, async (req, res) => {
   }
 });
 
-
+// first do GET http://localhost:3001/api/spotify/search/artist_name to get the artist ID
+// http://localhost:3001/artist/artist_id
 // Receives an artist id
 router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
   console.log("In the artist route");
@@ -131,23 +133,81 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
   }
 });
 
+// http://localhost:3001/album/album_id
 router.get('/album/:album_id', async (req, res) => {
-  // may need to get album info from spotify again
-  // v1/albums/{id}
-
-  // get the reviews for the album
-  // GET /api/review/:album_id
-  // Receives a spotify album id
-  // returns an array of objects with review text, their associated ratings, and usernames who wrote them
-
-
-
   try {
-    res.render('artist', {});
+    const spotifyApi = new SpotifyWebApi({
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+    });
+    spotifyApi.setAccessToken(req.session.spotify_token);
+
+    // may need to get album info from spotify again
+    // v1/albums/{id}
+    const albumId = req.params.album_id;
+    const albumData = await spotifyApi.getAlbum(albumId, { market: 'US' });
+    const trackData = await spotifyApi.getAlbumTracks(albumId);
+    const trackArray = trackData.body.items;
+    const myArray = [];
+    for (let i = 0; i < trackArray.length; i++) {
+      const myObj = {
+        length: millisToMinutesAndSeconds(trackArray[i].duration_ms),
+        name: trackArray[i].name,
+        trackNumber: trackArray[i].track_number
+      }
+      myArray.push(myObj);
+    }
+
+    const albumInfo = {
+      albumID: albumData.body.id,
+      albumTitle: albumData.body.name,
+      spotifyUrl: albumData.body.external_urls.spotify,
+      artistID: albumData.body.artists[0].id,
+      albumArtUrl: albumData.body.images[0].url,
+      releaseDate: albumData.body.release_date,
+      numTracks: albumData.body.total_tracks,
+    }
+
+    // get the reviews for the album
+    // Receives a spotify album id
+    // returns an array of objects with review text, their associated ratings, and usernames who wrote them
+    const reviewData = await Rating.findAll({
+      attributes: [['id','rating_id'],'score', 'review'],
+      where: {
+        album_id: req.params.album_id,   
+        // only gets rating objects with reviews
+        review: {
+          [Op.ne]: null
+        }   
+      },
+      include: [{
+        model: User,
+        attributes: [['id','user_id'], 'username']
+      }],
+    });
+
+    const responseObj = {
+      albumInfo: albumInfo,
+      tracks: myArray,
+      reviews: reviewData
+    }
+
+    // ===========================================================
+    // NOTE!!!!! CHANGE TO RES.RENDER WHEN TESTING WITH HANDLEBARS
+    // ===========================================================
+    res.status(200).json(responseObj);
+    // res.render('albumPage', responseObj);
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
+
+function millisToMinutesAndSeconds(millis) {
+  var minutes = Math.floor(millis / 60000);
+  var seconds = ((millis % 60000) / 1000).toFixed(0);
+  return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
 
 
 router.get('/login', (req, res) => {
