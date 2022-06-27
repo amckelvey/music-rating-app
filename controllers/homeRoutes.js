@@ -25,7 +25,9 @@ router.get('/', spotifyAuth, async (req, res) => {
         spotifyUrl: newReleasesArray[i].external_urls.spotify,
         artistName: newReleasesArray[i].artists[0].name,
         artistID: newReleasesArray[i].artists[0].id,
-        albumArtUrl: newReleasesArray[i].images[0].url,
+        albumArtBig: newReleasesArray[i].images[0].url,
+        albumArtMedium: newReleasesArray[i].images[1].url,
+        albumArtSmall: newReleasesArray[i].images[2].url,
         releaseDate: newReleasesArray[i].release_date,
         numTracks: newReleasesArray[i].total_tracks
       }
@@ -84,7 +86,9 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
         albumID: albumArray[i].id,
         albumTitle: albumArray[i].name,
         artistID: albumArray[i].artists[0].id,
-        albumArtUrl: albumArray[i].images[0].url,
+        albumArtBig: albumArray[i].images[0].url,
+        albumArtMedium: albumArray[i].images[1].url,
+        albumArtSmall: albumArray[i].images[2].url,
         releaseDate: albumArray[i].release_date,
         averageRating: average,
         // also return number of votes
@@ -163,7 +167,9 @@ router.get('/album/:album_id', async (req, res) => {
       albumTitle: albumData.body.name,
       spotifyUrl: albumData.body.external_urls.spotify,
       artistID: albumData.body.artists[0].id,
-      albumArtUrl: albumData.body.images[0].url,
+      albumArtBig: albumData.body.images[0].url,
+      albumArtMedium: albumData.body.images[1].url,
+      albumArtSmall: albumData.body.images[2].url,
       releaseDate: albumData.body.release_date,
       numTracks: albumData.body.total_tracks,
     }
