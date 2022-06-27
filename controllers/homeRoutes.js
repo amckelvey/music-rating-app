@@ -1,3 +1,4 @@
+var SpotifyWebApi = require('spotify-web-api-node');
 const router = require('express').Router();
 const { User } = require('../models');
 const spotifyAuth = require('../utils/spotifyAuth');
@@ -28,9 +29,10 @@ router.get('/', spotifyAuth, async (req, res) => {
       }
       newReleases.push(myObj);
     }
-    res.render('homepage', {
+    const reponseObj = {
       newReleases
-    });
+    }
+    res.render('homepage', reponseObj);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -42,7 +44,6 @@ router.get('/artist/:artist', async (req, res) => {
   // Receives an artist name input by the user
   // does a GET /v1/search search query to spotify to get the artist_id
   // does a GET /v1/artists/{artist_id}/albums request to get album info  
-
 
   // get artist info
   // Receives a spotify artist_id
