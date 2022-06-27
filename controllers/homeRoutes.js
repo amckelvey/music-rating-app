@@ -1,16 +1,17 @@
 var SpotifyWebApi = require('spotify-web-api-node');
 const router = require('express').Router();
-const { User } = require('../models');
+const { User, Rating } = require('../models');
 const spotifyAuth = require('../utils/spotifyAuth');
 
 
 // Only allow a get request if the user is logged in
 router.get('/', spotifyAuth, async (req, res) => {
+  console.log("In the home route");
   // get decorative new releases data from spotify and render it
   try {
     const spotifyApi = new SpotifyWebApi({
-      clientId: req.session.spotifyApi._credentials.clientId,
-      clientSecret: req.session.spotifyApi._credentials.clientSecret,
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET
     });
     spotifyApi.setAccessToken(req.session.spotify_token);
     const newReleaseData = await spotifyApi.getNewReleases({ limit :10, country: 'US' });
@@ -39,23 +40,93 @@ router.get('/', spotifyAuth, async (req, res) => {
   }
 });
 
-router.get('/artist/:artist', async (req, res) => {
-  // GET /api/spotify/albums/:artist
-  // Receives an artist name input by the user
-  // does a GET /v1/search search query to spotify to get the artist_id
-  // does a GET /v1/artists/{artist_id}/albums request to get album info  
 
-  // get artist info
-  // Receives a spotify artist_id
-  // does a GET /v1/artists/{id} request to get artist info
-
-  // Gets the average rating for each album
-  // Receives a spotify album id
-  // returns the average score of that album
-  // req.params.album_id
+// Receives an artist id
+router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
+  console.log("In the artist route");
   try {
-    res.render('artist', {});
+    const spotifyApi = new SpotifyWebApi({
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET
+    });
+     // Save the access token so that it's used in future calls
+    spotifyApi.setAccessToken(req.session.spotify_token);
+    const artistId = req.params.artist_id;
+    // does a GET /v1/artists/{artist_id}/albums request to get album info  
+    const albumData = await spotifyApi.getArtistAlbums(artistId ,{include_groups: 'album', market: 'US', limit:'50'});
+    // also gives artist ID back
+    const albumArray = albumData.body.items;
+    const artistAlbums = [];
+    for (let i = 0; i < albumArray.length; i++) {
+      // Gets the average rating for each album
+      const scoreData = await Rating.findAll({
+        attributes: ['score'],
+        where: {
+          // Receives a spotify album id
+          album_id: albumArray[i].id
+        }
+      });
+      let scores = scoreData.map((score) => score.score);
+      if (scoreData.length > 0) {
+        let total = 0;
+        for(let i = 0; i < scores.length; i++) {
+          total += scores[i];
+        }
+        const rawAvg = total / scores.length;
+        // returns the average score of that album
+        const average = Math.round(rawAvg * 10) / 10;
+      } else {
+        var average = null;
+      }
+      const myObj = {
+        albumID: albumArray[i].id,
+        albumTitle: albumArray[i].name,
+        artistID: albumArray[i].artists[0].id,
+        albumArtUrl: albumArray[i].images[0].url,
+        releaseDate: albumArray[i].release_date,
+        averageRating: average,
+        // also return number of votes
+        numRatings: scores.length
+      }
+      artistAlbums.push(myObj);
+    }
+
+    // get artist info
+    // Receives a spotify artist_id
+    // does a GET /v1/artists/{id} request to get artist info
+    const artistData = await spotifyApi.getArtist(artistId);
+    spotifyApi.setAccessToken(req.session.spotify_token);
+    const artistID = req.params.artist_id;
+    const spotifyData = await spotifyApi.getArtistRelatedArtists(artistID);
+    let relatedData = spotifyData.body.artists;
+    relatedData = relatedData.slice(0, 5);
+    const relatedArtists = [];
+    for (let i = 0; i < relatedData.length; i++) {
+      const myObj = {
+        artistId: relatedData[i].id,
+        name: relatedData[i].name
+      }
+      relatedArtists.push(myObj);
+    }
+    const artistInfo = {
+      spotifyUrl: artistData.body.external_urls.spotify,
+      genres: artistData.body.genres,
+      name: artistData.body.name,
+      artistImageUrl: artistData.body.images[0].url,
+      relatedArtists: relatedArtists
+    }
+
+    const responseObj = {
+      artistAlbums: artistAlbums,
+      artistData: artistInfo
+    }
+    // ===========================================================
+    // NOTE!!!!! CHANGE TO RES.RENDER WHEN TESTING WITH HANDLEBARS
+    // ===========================================================
+    res.status(200).json(responseObj);
+    // res.render('artistPage', responseObj);
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
