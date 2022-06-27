@@ -46,6 +46,7 @@ router.get('/:artist', async (req, res) => {
     res.status(200).json(albumArray);
   } catch {
     res.status(400).json(err);
+    
   }
 });
   
