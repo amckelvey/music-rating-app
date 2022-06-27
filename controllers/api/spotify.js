@@ -33,7 +33,7 @@ router.get('/albums/:artist', spotifyAuth, async (req, res) => {
     const albumData = await spotifyApi.getArtistAlbums(artistId ,{include_groups: 'album', market: 'US'});
     // also gives artist ID back
     const albumArray = albumData.body.items;
-    const myArray = [];
+    const artistAlbums = [];
     for (let i = 0; i < albumArray.length; i++) {
       const myObj = {
         albumTitle: albumArray[i].name,
@@ -44,9 +44,9 @@ router.get('/albums/:artist', spotifyAuth, async (req, res) => {
         releaseDate: albumArray[i].release_date,
         numTracks: albumArray[i].total_tracks
       }
-      myArray.push(myObj);
+      artistAlbums.push(myObj);
     }
-    res.status(200).json(myArray);
+    res.status(200).json(albumArray);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -66,14 +66,14 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
     const artistID = req.params.artist_id;
     const artistData = await spotifyApi.getArtist(artistID);
 
-    const myObj = {
+    const artistInfo = {
       spotifyUrl: artistData.body.external_urls.spotify,
       genres: artistData.body.genres,
       name: artistData.body.name,
       artistImageUrl: artistData.body.images[0].url,
     }
 
-    res.status(200).json(myObj);
+    res.status(200).json(artistInfo);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
