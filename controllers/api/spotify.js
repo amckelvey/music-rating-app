@@ -46,7 +46,7 @@ router.get('/albums/:artist', spotifyAuth, async (req, res) => {
       }
       myArray.push(myObj);
     }
-    res.status(200).json(albumArray);
+    res.status(200).json(myArray);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -92,7 +92,7 @@ router.get('/new-releases/', spotifyAuth, async (req, res) => {
     spotifyApi.setAccessToken(req.session.spotify_token);
     const newReleaseData = await spotifyApi.getNewReleases({ limit :10, country: 'US' });
     const newReleasesArray = newReleaseData.body.albums.items;
-    const myArray = [];
+    const newReleases = [];
     for (let i = 0; i < newReleasesArray.length; i++) {
       const myObj = {
         albumType: newReleasesArray[i].album_type,
@@ -104,9 +104,9 @@ router.get('/new-releases/', spotifyAuth, async (req, res) => {
         releaseDate: newReleasesArray[i].release_date,
         numTracks: newReleasesArray[i].total_tracks
       }
-      myArray.push(myObj);
+      newReleases.push(myObj);
     }
-    res.status(200).json(myArray);
+    res.status(200).json(newReleases);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
