@@ -2,18 +2,6 @@ var SpotifyWebApi = require('spotify-web-api-node');
 const router = require('express').Router();
 const spotifyAuth = require('../../utils/spotifyAuth');
 
-// // test route to test SpotifyAuth
-// router.get('/expires/', spotifyAuth, async (req, res) => {
-//   try {
-//     console.log(req.session.spotifyApi);
-//     res.status(200).json();
-
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json(err);
-//   }
-// });
-
 // GET /api/spotify/search/:artist
 // does a GET /v1/search search query to spotify to get the artist_id
 router.get('/search/:artist', spotifyAuth, async (req, res) => {
@@ -33,7 +21,6 @@ router.get('/search/:artist', spotifyAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 
 // GET /api/spotify/albums/:artist
 // Receives an artist name input by the user
