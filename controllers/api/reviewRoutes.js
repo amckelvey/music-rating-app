@@ -66,36 +66,6 @@ router.get('/:user_id/:album_id', async (req, res) => {
   }
 });
 
-
-// GET /api/reviews/:user/:album_id
-// user_id would passed in via the request object
-// returns the id, text body of a review for that album and user
-router.get('/:user_id/:album_id', async (req, res) => {
-  try {
-    console.log("Get Reviews for album by user user_id");
-    const reviewData = await Rating.findOne({
-      attributes: [['id','rating_id'],'score', 'review'],
-      where: {
-        album_id: req.params.album_id,
-        user_id: req.params.user_id
-      },
-      include: [{
-        model: User,
-        attributes: [['id','user_id'], 'username']
-      }],
-    });
-    if (!reviewData) {
-      res.status(404).json({ message: 'No Review with this id!'});
-      return;
-    }
-    const review = reviewData.get({ plain: true });
-    res.status(200).json(review);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-});
-
 // POST /api/reviews/
 // Receives reivew info in the request
 // user needs to be logged in

@@ -4,8 +4,8 @@ var SpotifyWebApi = require('spotify-web-api-node');
 const spotifyAuth = async (req, res, next) => {
   if (!req.session.spotify_token || Date.now() > req.session.spotify_token_expires) {
     // should be moved to the .env
-    var clientId = 'b8613864536c4491b058d23befbec540',
-    clientSecret = 'fadd7cafd3d840d7b4d14180fc84ebb4';
+    var clientId = process.env.SPOTIFY_CLIENT_ID,
+    clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
     spotifyApi = new SpotifyWebApi({
       clientId: clientId,
       clientSecret: clientSecret
