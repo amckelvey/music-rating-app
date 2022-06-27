@@ -1,5 +1,6 @@
 *{
-  margin: 10;
+  display: flexbox;
+  justify-content: baseline;
   padding: 10;
   font-family: 'Times New Roman', Times, serif
 }
@@ -17,21 +18,24 @@ p {
 }
 
 .search-bar {
-  display: inline-flex;
-  justify-content: center;
+  display: flex;
   font-size: 1rem;
   margin-top: 20px;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 100pc;
+  max-width: 400px;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 .search-bar > input {
+  display:flex;
   font-size: inherit;
-  text-align: center;
+  text-align: left;
   padding: 0.5rem;
   border: 0.2rem solid black;
-  max-width: 98pc;
+  max-width: 400px;
+  margin-top: 5rem;
+  margin-left:auto;
+  /* margin-right:auto; */
 }
 
 .search-bar > input:hover,
@@ -42,9 +46,12 @@ p {
 .search-bar > button {
   font-size: inherit;
   text-align: center;
+  padding: 10px;
   border-radius: 0 0.5rem 0.5rem 0;
   border-color: red;
   background-color: white;
+  margin-top: 5rem;
+  margin-right:auto;
 }
 
 .search-bar > button:hover,
