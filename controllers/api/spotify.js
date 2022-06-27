@@ -46,7 +46,7 @@ router.get('/albums/:artist', spotifyAuth, async (req, res) => {
       }
       myArray.push(myObj);
     }
-    res.status(200).json(myArray);
+    res.status(200).json(albumArray);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
