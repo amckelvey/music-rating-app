@@ -7,5 +7,8 @@ const spotifyRoutes = require('./spotify');
 router.use('/users', userRoutes);
 router.use('/ratings/', ratingRoutes);
 router.use('/reviews/', reviewRoutes);
-//router.use('/spotify/', spotifyRoutes);
+
+
+router.use('/spotify/', spotifyRoutes);
+
 module.exports = router;
