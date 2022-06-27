@@ -14,6 +14,27 @@ const spotifyAuth = require('../../utils/spotifyAuth');
 //   }
 // });
 
+// GET /api/spotify/search/:artist
+// does a GET /v1/search search query to spotify to get the artist_id
+router.get('/search/:artist', spotifyAuth, async (req, res) => {
+  try {
+    const spotifyApi = new SpotifyWebApi({
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+    });
+     // Save the access token so that it's used in future calls
+    spotifyApi.setAccessToken(req.session.spotify_token);
+    // hard coded to pick most popular result
+    const searchArtistData = await spotifyApi.searchArtists(req.params.artist, {limit: 1});
+    const artistId = searchArtistData.body.artists.items[0].id;
+    res.status(200).json(artistId);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+
 // GET /api/spotify/albums/:artist
 // Receives an artist name input by the user
 // does a GET /v1/search search query to spotify to get the artist_id
@@ -22,31 +43,31 @@ const spotifyAuth = require('../../utils/spotifyAuth');
 router.get('/albums/:artist', spotifyAuth, async (req, res) => {
   try {
     const spotifyApi = new SpotifyWebApi({
-      clientId: req.session.spotifyApi._credentials.clientId,
-      clientSecret: req.session.spotifyApi._credentials.clientSecret,
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     });
      // Save the access token so that it's used in future calls
     spotifyApi.setAccessToken(req.session.spotify_token);
     // hard coded to pick most popular result
     const searchArtistData = await spotifyApi.searchArtists(req.params.artist, {limit: 1});
     const artistId = searchArtistData.body.artists.items[0].id;
-    const albumData = await spotifyApi.getArtistAlbums(artistId ,{include_groups: 'album', market: 'US'});
+    const albumData = await spotifyApi.getArtistAlbums(artistId ,{include_groups: 'album', market: 'US', limit: '50'});
     // also gives artist ID back
     const albumArray = albumData.body.items;
     const artistAlbums = [];
     for (let i = 0; i < albumArray.length; i++) {
       const myObj = {
+        albumID: albumArray[i].id,
         albumTitle: albumArray[i].name,
         spotifyUrl: albumArray[i].external_urls.spotify,
-        artistName: albumArray[i].artists[0].name,
         artistID: albumArray[i].artists[0].id,
         albumArtUrl: albumArray[i].images[0].url,
         releaseDate: albumArray[i].release_date,
-        numTracks: albumArray[i].total_tracks
+        // numTracks: albumArray[i].total_tracks
       }
       artistAlbums.push(myObj);
     }
-    res.status(200).json(albumArray);
+    res.status(200).json(artistAlbums);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -59,8 +80,8 @@ router.get('/albums/:artist', spotifyAuth, async (req, res) => {
 router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
   try {
     const spotifyApi = new SpotifyWebApi({
-      clientId: req.session.spotifyApi._credentials.clientId,
-      clientSecret: req.session.spotifyApi._credentials.clientSecret,
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     });
     spotifyApi.setAccessToken(req.session.spotify_token);
     const artistID = req.params.artist_id;
@@ -80,14 +101,43 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
   }
 });
 
+// GET /api/spotify/related/:artist_id
+router.get('/related/:artist_id', spotifyAuth, async (req, res) => {
+  console.log("In related route");
+  try {
+    const spotifyApi = new SpotifyWebApi({
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+    });
+    spotifyApi.setAccessToken(req.session.spotify_token);
+    const artistID = req.params.artist_id;
+    const spotifyData = await spotifyApi.getArtistRelatedArtists(artistID);
+    let relatedData = spotifyData.body.artists;
+    relatedData = relatedData.slice(0, 5);
+    const relatedArtists = [];
+    for (let i = 0; i < relatedData.length; i++) {
+      const myObj = {
+        artistId: relatedData[i].id,
+        name: relatedData[i].name
+      }
+      relatedArtists.push(myObj);
+    }
+
+    res.status(200).json(relatedArtists);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 // get new releases for the home page
 // GET /api/spotify/new-releases/
 // does a GET v1/browse/new-releases requestion to spotify to get new releases
 router.get('/new-releases/', spotifyAuth, async (req, res) => {
   try {
     const spotifyApi = new SpotifyWebApi({
-      clientId: req.session.spotifyApi._credentials.clientId,
-      clientSecret: req.session.spotifyApi._credentials.clientSecret,
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     });
     spotifyApi.setAccessToken(req.session.spotify_token);
     const newReleaseData = await spotifyApi.getNewReleases({ limit :10, country: 'US' });
@@ -120,8 +170,8 @@ router.get('/new-releases/', spotifyAuth, async (req, res) => {
 router.get('/album-tracks/:album_id', spotifyAuth, async (req, res) => {
   try {
     const spotifyApi = new SpotifyWebApi({
-      clientId: req.session.spotifyApi._credentials.clientId,
-      clientSecret: req.session.spotifyApi._credentials.clientSecret,
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     });
     spotifyApi.setAccessToken(req.session.spotify_token);
     const albumID = req.params.album_id;
