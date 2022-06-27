@@ -19,12 +19,12 @@ const spotifyAuth = async (req, res, next) => {
         req.session.spotify_token_expires = Date.now() + (data.body['expires_in'] * 1000);
         console.log('The access token expires in ' + data.body['expires_in']);
         console.log('The access token is ' + data.body['access_token']);
-        req.session.spotifyApi =spotifyApi ;
+        req.session.spotifyApi = spotifyApi;
         next();
     });
     } catch (err) {
       console.log('Something went wrong when retrieving an access token', err);
-      next();
+      res.status(500).json(err);
     }
   } else {
     console.log("Spotify authorization not needed");
