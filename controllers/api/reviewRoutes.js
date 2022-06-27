@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const { Op } = require("sequelize");
 const { User, Rating} = require('../../models');
+const withAuth = require('../../utils/auth');
+
 
 
 // GET /api/review/:album_id
@@ -27,7 +29,6 @@ router.get('/:album_id', async (req, res) => {
       res.status(404).json({ message: 'No Review with this id!'});
       return;
     }
-    // const review = reviewData.get({ plain: true });
     res.status(200).json(reviewData);
   } catch (err) {
     console.log(err);
@@ -99,6 +100,7 @@ router.get('/:user_id/:album_id', async (req, res) => {
 // Receives reivew info in the request
 // user needs to be logged in
 // creates a new review
+// needs withAuth middleware
 router.post('/', async (req, res) => {
   // create a new category
   try {
@@ -114,6 +116,7 @@ router.post('/', async (req, res) => {
 // Receives a review id
 // user needs to be logged in
 // setting a review to null
+// needs withAuth middleware
 router.delete('/:rating_id', async (req, res) => {
   // delete one product by its `id` value
   try {

@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { User, Rating } = require('../../models');
+const withAuth = require('../../utils/auth');
 
 
 // GET /api/rating/average/:album_id
@@ -61,6 +62,7 @@ router.get('/:user_id/:album_id', async (req, res) => {
 // Receives rating info in the request
 // checks if the user is logged in
 // creates a new rating
+// needs withAuth included
 router.post('/', async (req, res) => {
   // create a new category
   try {
@@ -77,6 +79,7 @@ router.post('/', async (req, res) => {
 // Receives rating a rating id, will need to check the user_id and album_id
 // checks if the user is logged in
 // updates an existing rating
+// needs withAuth included
 router.put('/:id', async (req, res) => {
   // update a category by its `id` value
   try {
