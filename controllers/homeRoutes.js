@@ -1,13 +1,38 @@
 const router = require('express').Router();
 const { User } = require('../models');
-const withAuth = require('../utils/auth');
+const spotifyAuth = require('../utils/spotifyAuth');
+
 
 // Only allow a get request if the user is logged in
-router.get('/', async (req, res) => {
+router.get('/', spotifyAuth, async (req, res) => {
   // get decorative new releases data from spotify and render it
   try {
-    res.render('homepage', {});
+    const spotifyApi = new SpotifyWebApi({
+      clientId: req.session.spotifyApi._credentials.clientId,
+      clientSecret: req.session.spotifyApi._credentials.clientSecret,
+    });
+    spotifyApi.setAccessToken(req.session.spotify_token);
+    const newReleaseData = await spotifyApi.getNewReleases({ limit :10, country: 'US' });
+    const newReleasesArray = newReleaseData.body.albums.items;
+    const newReleases = [];
+    for (let i = 0; i < newReleasesArray.length; i++) {
+      const myObj = {
+        albumType: newReleasesArray[i].album_type,
+        albumTitle: newReleasesArray[i].name,
+        spotifyUrl: newReleasesArray[i].external_urls.spotify,
+        artistName: newReleasesArray[i].artists[0].name,
+        artistID: newReleasesArray[i].artists[0].id,
+        albumArtUrl: newReleasesArray[i].images[0].url,
+        releaseDate: newReleasesArray[i].release_date,
+        numTracks: newReleasesArray[i].total_tracks
+      }
+      newReleases.push(myObj);
+    }
+    res.render('homepage', {
+      newReleases
+    });
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
@@ -16,8 +41,8 @@ router.get('/artist/:artist', async (req, res) => {
   // GET /api/spotify/albums/:artist
   // Receives an artist name input by the user
   // does a GET /v1/search search query to spotify to get the artist_id
-  // does a GET /v1/artists/{artist_id}/albums request to get album info
-  // Returns an array of album info, also returns artist_id
+  // does a GET /v1/artists/{artist_id}/albums request to get album info  
+
 
   // get artist info
   // Receives a spotify artist_id
