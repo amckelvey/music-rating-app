@@ -1,9 +1,7 @@
 console.log("search");
 
 const searchHandler = async (event) => {
-    event.preventDefault();
-    console.log("search form handler");
-  
+    event.preventDefault();  
     const artist = document.querySelector("#srch").value.trim();
     console.log("Artist:", artist);
     
@@ -15,7 +13,6 @@ const searchHandler = async (event) => {
   
       if (response.ok) {
         const artistId = await response.json();
-        console.log(artistId);
         document.location.replace(`/artist/${artistId}`);
       } else {
         alert("Cannot find artist");
