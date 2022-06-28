@@ -1,6 +1,5 @@
 var SpotifyWebApi = require('spotify-web-api-node');
 
-// copied from https://github.com/thelinmichael/spotify-web-api-node/blob/master/examples/access-token-using-client-credentials.js
 const spotifyAuth = async (req, res, next) => {
   if (!req.session.spotify_token || Date.now() > req.session.spotify_token_expires) {
     // should be moved to the .env
