@@ -4,13 +4,13 @@
   <img  src="{{albumInfo.albumArtMedium}}" alt="{{albumInfo.albumTitle}}" id="albumart">
 </div>
 {{!-- Info from reviews_db  --}}
-{{#each reviews}}
+{{#each reviews as |review|}}
   <div id="rating-box">
-      <span id="user">ç{{reviews.[0].user.username}}</span>
-      <span id="album-rating">{{reviews.[0].score}}</span>
+      <span id="user">ç{{review.user.username}}</span>
+      <span id="album-rating">{{review.score}}</span>
   </div>
 <div>
   <span id="album-review">Album Review</span>
-  <p>{{reviews.[0].review}}</p>
+  <p>{{review.review}}</p>
 </div>
 {{/each}}
