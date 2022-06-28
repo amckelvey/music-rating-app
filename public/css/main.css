@@ -17,7 +17,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
+  position:static;
   z-index: 99;
   box-shadow: 0 0 10px #000;
   background: rgba(0, 0, 0, 0.5);
