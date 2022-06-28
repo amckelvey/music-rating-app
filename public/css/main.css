@@ -7,8 +7,8 @@
 body {
   background-size: cover;
   height: 100vh;
-  background: url(../images/gold-grad.webp);
   background-position: center;
+  background: url(../images/gold-grad.webp);
 }
 /* header styling portion */
 header {
