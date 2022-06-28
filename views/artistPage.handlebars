@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="/css/artistpage.css" />
+{{#each artistAlbums as |album|}}
+<div class="column">
+  <a href="/album/{{album.albumID}}">
+  <img src="{{album.albumArtMedium}}" class="card-img-top" alt="..." />
+  </a>
+  <div class="card-body">
+    <p class="card-text">Album Name: {{album.albumTitle}}</p>
+    <p class="card-text">Artist Name: {{album.name}}</p>
+    <p class="card-text">Release Date: {{album.releaseDate}}</p>
+    {{!-- <p class="card-text">Album ID: {{album.albumID}}</p> --}}
+    <label for="pet-select">Choose a rating:</label>
+
+    <select name="rating" id="album-rating">
+      <option value="">Choose a rating:</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+    </select>
+  </div>
+</div>
+{{/each}}
+
+<script src="/js/rating.js"></script>
