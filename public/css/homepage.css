@@ -1,60 +1,32 @@
-*{
-  display: flexbox;
-  justify-content: baseline;
-  padding: 10;
-  font-family: 'Times New Roman', Times, serif
+main {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 30px;
+  grid-row-gap: 15px;
+  margin-left: 100px;
 }
 
-h1 {
-  font-size: 40px;
-  margin: 20px;
-  text-align: center;
+.column {
+  float: left;
+  margin-top: 100px;
+}
+.card-body {
+  background-color: rgb(128, 128, 128);
+  max-width: 300px;
+  cursor: pointer;
+}
+.card-body:hover {
+  box-shadow: 0 0 10px gold;
 }
 
-p {
-  font-size: 30px;
-  margin: 10 px;
-  text-align: center;
+img {
+  border-radius: 7px;
+  cursor: pointer;
 }
 
-.search-bar {
-  display: flex;
-  font-size: 1rem;
-  margin-top: 20px;
-  max-width: 400px;
-  margin-left:auto;
-  margin-right:auto;
-}
-
-.search-bar > input {
-  display:flex;
-  font-size: inherit;
-  text-align: left;
-  padding: 0.5rem;
-  border: 0.2rem solid black;
-  max-width: 400px;
-  margin-top: 5rem;
-  margin-left:auto;
-  /* margin-right:auto; */
-}
-
-.search-bar > input:hover,
-.search-bar > input:focus {
-  border-color:red;
-}
-
-.search-bar > button {
-  font-size: inherit;
-  text-align: center;
-  padding: 10px;
-  border-radius: 0 0.5rem 0.5rem 0;
-  border-color: red;
-  background-color: white;
-  margin-top: 5rem;
-  margin-right:auto;
-}
-
-.search-bar > button:hover,
-.search-bar > button:focus {
-  background-color:red;
+img:hover {
+  outline: none;
+  border-color: #9ecaed;
+  box-shadow: 0 0 10px gold;
 }
