@@ -4,6 +4,8 @@ const sequelize = require('../config/connection');
 
 class User extends Model {
   checkPassword(loginPw) {
+    console.log("loginPw:", loginPw);
+    console.log("this.password:", this.password);
     return bcrypt.compareSync(loginPw, this.password);
   }
 }
@@ -31,7 +33,6 @@ User.init(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
-      // password must be at least 8 characters
       validate: {
         len: [6],
       },
