@@ -1,6 +1,5 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,13 +16,12 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-  
-  <title>Music-Rating-App</title>
-</head>
 
+    <title>Music-Rating-App</title>
+  </head>
 
-<body>
-   <header>
+  <body>
+    <header>
       <input type="checkbox" name="" id="chk1" />
       <div class="logo"><h1>Music-Review-app</h1></div>
       <div class="search-box">
@@ -33,12 +31,12 @@
         </form>
       </div>
       <ul>
-        <li><a href="#">Home</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Contact</a></li>
-        <li><a href="#">Log-in</a></li>
+        <li><a href="../login">Log-in</a></li>
         {{#if logged_in}}
-        <li><a href="#">Logout</a></li>
+          <li><a href="#">Logout</a></li>
         {{/if}}
         <li>
           <a href="#"><i class="fab fa-twitter"></i></a>
@@ -52,14 +50,12 @@
         </label>
       </div>
     </header>
-  
-  
 
-      <main>
-        {{{ body }}}
-      </main>
+    <main>
+      {{{body}}}
+    </main>
 
-  <footer>
+    <footer>
       <div class="footer-content">
         <h3>Music-Review-App</h3>
         <p>
@@ -89,10 +85,6 @@
       </div>
     </footer>
 
-
-</body>
-
-
-
+  </body>
 
 </html>
