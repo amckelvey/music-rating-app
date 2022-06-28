@@ -44,7 +44,6 @@ const signupFormHandler = async (event) => {
       } else {
         alert("Failed to sign up.");
       }
-      alert("Failed to sign up.");
     }
   }
 };
