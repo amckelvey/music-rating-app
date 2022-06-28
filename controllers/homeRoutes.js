@@ -139,7 +139,7 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
 });
 
 // http://localhost:3001/album/album_id
-router.get('/album/:album_id', async (req, res) => {
+router.get('/album/:album_id', spotifyAuth, async (req, res) => {
   try {
     const spotifyApi = new SpotifyWebApi({
       clientId: process.env.SPOTIFY_CLIENT_ID,
