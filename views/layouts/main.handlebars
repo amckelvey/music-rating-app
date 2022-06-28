@@ -34,9 +34,10 @@
         <li><a href="/">Home</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Contact</a></li>
-        <li><a href="../login">Log-in</a></li>
         {{#if logged_in}}
-          <li><a href="#">Logout</a></li>
+        <li><a href="#">Logout</a></li>
+        {{else}}
+        <li><a href="../login">Log In</a></li>
         {{/if}}
         <li>
           <a href="#"><i class="fab fa-twitter"></i></a>
@@ -84,6 +85,9 @@
         </p>
       </div>
     </footer>
+  {{#if logged_in}}
+  <script src="/js/logout.js"></script>
+  {{/if}}
 
   </body>
 
