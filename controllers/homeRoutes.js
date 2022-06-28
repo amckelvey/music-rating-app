@@ -194,10 +194,12 @@ router.get('/album/:album_id', spotifyAuth, async (req, res) => {
       }],
     });
 
+    const reviews = reviewData.map(review => review.get({plain: true}));
+
     const responseObj = {
       albumInfo: albumInfo,
       tracks: myArray,
-      reviews: reviewData
+      reviews: reviews
     }
 
     // ===========================================================
