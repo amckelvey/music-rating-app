@@ -33,10 +33,17 @@ const signupFormHandler = async (event) => {
       body: JSON.stringify({ username, email, password }),
       headers: { "Content-Type": "application/json" },
     });
+    const resJson = await response.json(); 
 
+    console.log(resJson.errors);
     if (response.ok) {
       document.location.replace("/");
     } else {
+      if (resJson.errors[0].type == "Validation error") {
+        alert("Make sure that your email is correctly formatted and that your password is at elast 6 characters long");
+      } else {
+        alert("Failed to sign up.");
+      }
       alert("Failed to sign up.");
     }
   }
