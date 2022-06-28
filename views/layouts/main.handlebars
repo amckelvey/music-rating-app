@@ -27,20 +27,21 @@
       <div class="search-box">
         <form class="search-form">
           <input type="text" name="search" id="srch" placeholder="Search" />
-          <button type="submit" id="search-btn"><i class="fa fa-search"></i></button>
+          <button type="submit" id="search-btn"><i
+              class="fa fa-search"
+            ></i></button>
         </form>
       </div>
       <ul>
         <li><a href="/">Home</a></li>
 
         <li><a href="#footer">Contact</a></li>
-        <li><a href="../login">Log-in</a></li>
+        {{! <li><a href="../login">Log-in</a></li> }}
 
-     
         {{#if logged_in}}
-        <li><a href="#">Logout</a></li>
+          <li><a href="#">Logout</a></li>
         {{else}}
-        <li><a href="../login">Log In</a></li>
+          <li><a href="../login">Log In</a></li>
         {{/if}}
         <li>
           <a href="https://twitter.com/jar_jar_binks1?lang=en"><i
@@ -102,10 +103,10 @@
         </p>
       </div>
     </footer>
-  <script src="/js/search.js"></script>
-  {{#if logged_in}}
-  <script src="/js/logout.js"></script>
-  {{/if}}
+    <script src="/js/search.js"></script>
+    {{#if logged_in}}
+      <script src="/js/logout.js"></script>
+    {{/if}}
 
   </body>
 
