@@ -70,8 +70,8 @@ router.get('/:user_id/:album_id', async (req, res) => {
 // Receives reivew info in the request
 // user needs to be logged in
 // creates a new review
-// needs withAuth middleware
-router.post('/', async (req, res) => {
+// needs withAuth middleware to reroute to the login page if the user isn't logged in
+router.post('/', /*withAuth,*/ async (req, res) => {
   // create a new category
   try {
     const reviewData = await Rating.create(req.body);
@@ -86,8 +86,8 @@ router.post('/', async (req, res) => {
 // Receives a review id
 // user needs to be logged in
 // setting a review to null
-// needs withAuth middleware
-router.delete('/:rating_id', async (req, res) => {
+// needs withAuth middleware to reroute to the login page if the user isn't logged in
+router.delete('/:rating_id', /*withAuth,*/ async (req, res) => {
   // delete one product by its `id` value
   try {
     const reviewData = await Rating.update({ review: null }, {

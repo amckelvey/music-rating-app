@@ -5,7 +5,6 @@ const spotifyAuth = require('../utils/spotifyAuth');
 const { Op } = require("sequelize");
 
 // GET http://localhost:3001/
-// Only allow a get request if the user is logged in
 router.get('/', spotifyAuth, async (req, res) => {
   console.log("In the home route");
   // get decorative new releases data from spotify and render it
@@ -130,8 +129,8 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
     // ===========================================================
     // NOTE!!!!! CHANGE TO RES.RENDER WHEN TESTING WITH HANDLEBARS
     // ===========================================================
-    res.status(200).json(responseObj);
-    // res.render('artistPage', responseObj);
+    // res.status(200).json(responseObj);
+    res.render('artistPage', responseObj);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
