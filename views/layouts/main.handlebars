@@ -32,10 +32,15 @@
       </div>
       <ul>
         <li><a href="/">Home</a></li>
+
         <li><a href="#footer">Contact</a></li>
         <li><a href="../login">Log-in</a></li>
+
+     
         {{#if logged_in}}
-          <li><a href="#">Logout</a></li>
+        <li><a href="#">Logout</a></li>
+        {{else}}
+        <li><a href="../login">Log In</a></li>
         {{/if}}
         <li>
           <a href="https://twitter.com/jar_jar_binks1?lang=en"><i
@@ -97,6 +102,9 @@
         </p>
       </div>
     </footer>
+  {{#if logged_in}}
+  <script src="/js/logout.js"></script>
+  {{/if}}
 
   </body>
 

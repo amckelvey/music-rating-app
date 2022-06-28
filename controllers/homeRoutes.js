@@ -139,7 +139,7 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
 });
 
 // http://localhost:3001/album/album_id
-router.get('/album/:album_id', async (req, res) => {
+router.get('/album/:album_id', spotifyAuth, async (req, res) => {
   try {
     const spotifyApi = new SpotifyWebApi({
       clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -174,6 +174,7 @@ router.get('/album/:album_id', async (req, res) => {
       releaseDate: albumData.body.release_date,
       numTracks: albumData.body.total_tracks,
     }
+    console.log(albumInfo);
 
     // get the reviews for the album
     // Receives a spotify album id
@@ -202,8 +203,8 @@ router.get('/album/:album_id', async (req, res) => {
     // ===========================================================
     // NOTE!!!!! CHANGE TO RES.RENDER WHEN TESTING WITH HANDLEBARS
     // ===========================================================
-    res.status(200).json(responseObj);
-    // res.render('albumPage', responseObj);
+    // res.status(200).json(responseObj);
+    res.render('albumPage', responseObj);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
