@@ -1,0 +1,16 @@
+<div>
+{{!-- Info from Spotify --}}
+<h1>{{albumInfo.albumTitle}}</h1>
+  <img  src="{{albumInfo.albumArtMedium}}" alt="{{albumInfo.albumTitle}}" id="albumart">
+</div>
+{{!-- Info from reviews_db  --}}
+{{#each reviews}}
+  <div id="rating-box">
+      <span id="user">ç{{reviews.[0].user.username}}</span>
+      <span id="album-rating">{{reviews.[0].score}}</span>
+  </div>
+<div>
+  <span id="album-review">Album Review</span>
+  <p>{{reviews.[0].review}}</p>
+</div>
+{{/each}}
