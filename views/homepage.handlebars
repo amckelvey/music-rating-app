@@ -1,10 +1,10 @@
 {{#each newReleases as |newRelease|}}
-<div class="card" style="width: 18rem;">
-  <img src="{{newRelease.albumArtUrl}}" class="card-img-top" alt="...">
-  <div class="card-body">
-    <p class="card-text">Album Name: {{newRelease.albumTitle}}</p>
-    <p class="card-text">Artist Name: {{newRelease.artistName}}</p>
-    <p class="card-text">Release Date: {{newRelease.releaseDate}}</p>
+  <div class="card" style="width: 18rem;">
+    <img src="{{newRelease.albumArtMedium}}" class="card-img-top" alt="..." />
+    <div class="card-body">
+      <p class="card-text">Album Name: {{newRelease.albumTitle}}</p>
+      <p class="card-text">Artist Name: {{newRelease.artistName}}</p>
+      <p class="card-text">Release Date: {{newRelease.releaseDate}}</p>
+    </div>
   </div>
-</div>
 {{/each}}
