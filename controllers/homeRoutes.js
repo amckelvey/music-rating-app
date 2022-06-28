@@ -118,7 +118,8 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
       spotifyUrl: artistData.body.external_urls.spotify,
       genres: artistData.body.genres,
       name: artistData.body.name,
-      artistImageUrl: artistData.body.images[0].url,
+      artistImageBig: artistData.body.images[0].url,
+      artistImageMedium: artistData.body.images[1].url,
       relatedArtists: relatedArtists
     }
 
