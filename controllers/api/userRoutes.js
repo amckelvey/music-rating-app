@@ -10,9 +10,13 @@ router.post('/', async (req, res) => {
       password: req.body.password,
     });
 
+    const userData = dbUserData.get({plain: true});
+
+    console.log(userData);
+
     req.session.save(() => {
       req.session.loggedIn = true;
-
+      req.session.userID = userData;
       res.status(200).json(dbUserData);
     });
   } catch (err) {
