@@ -29,7 +29,6 @@ router.post('/', async (req, res) => {
 // POST /api/users/login
 router.post('/login', async (req, res) => {
   try {
-    console.log("LOGGING INNNNNNNNN");
     const dbUserData = await User.findOne({
       where: {
         email: req.body.email,
