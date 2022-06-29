@@ -33,7 +33,8 @@ router.get('/', spotifyAuth, async (req, res) => {
       newReleases.push(myObj);
     }
     const reponseObj = {
-      newReleases
+      newReleases,
+      loggedIn: req.session.loggedIn ? true : false
     }
     res.render('homepage', reponseObj);
   } catch (err) {
@@ -61,6 +62,7 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
     const albumArray = albumData.body.items;
     const artistAlbums = [];
     for (let i = 0; i < albumArray.length; i++) {
+      const albumID = albumArray[i].id;
       // Gets the average rating for each album
       const scoreData = await Rating.findAll({
         attributes: ['score'],
@@ -81,8 +83,25 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
       } else {
         var average = null;
       }
+
+      let userScore = null;
+      if (req.session.loggedIn) {
+        // a the logged in user's rating of a current album
+        const userID = req.session.userID;
+        const ratingData = await Rating.findOne({
+          attributes: ['score'],
+          where: {
+            album_id: albumID,
+            user_id: userID
+          }
+        });
+        if(ratingData){
+          userScore = ratingData.get({ plain: true });
+        }
+        
+      }
       const myObj = {
-        albumID: albumArray[i].id,
+        albumID: albumID,
         albumTitle: albumArray[i].name,
         artistID: albumArray[i].artists[0].id,
         albumArtBig: albumArray[i].images[0].url,
@@ -91,7 +110,8 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
         releaseDate: albumArray[i].release_date,
         averageRating: average,
         // also return number of votes
-        numRatings: scores.length
+        numRatings: scores.length,
+        userScore: userScore
       }
       artistAlbums.push(myObj);
     }
@@ -124,7 +144,8 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
 
     const responseObj = {
       artistAlbums: artistAlbums,
-      artistData: artistInfo
+      artistData: artistInfo,
+      loggedIn: req.session.loggedIn ? true : false
     }
     // ===========================================================
     // NOTE!!!!! CHANGE TO RES.RENDER WHEN TESTING WITH HANDLEBARS
@@ -198,7 +219,8 @@ router.get('/album/:album_id', spotifyAuth, async (req, res) => {
     const responseObj = {
       albumInfo: albumInfo,
       tracks: myArray,
-      reviews: reviews
+      reviews: reviews,
+      loggedIn: req.session.loggedIn ? true : false
     }
 
     // ===========================================================

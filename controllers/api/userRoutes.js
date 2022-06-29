@@ -10,10 +10,13 @@ router.post('/', async (req, res) => {
       password: req.body.password,
     });
 
+    const userData = dbUserData.get({plain: true});
+
+    console.log(userData);
+
     req.session.save(() => {
       req.session.loggedIn = true;
-
-      res.status(200).json(dbUserData);
+      res.status(200).json(userData);
     });
   } catch (err) {
     console.log(err);
@@ -25,7 +28,6 @@ router.post('/', async (req, res) => {
 // POST /api/users/login
 router.post('/login', async (req, res) => {
   try {
-    console.log("LOGGING INNNNNNNNN");
     const dbUserData = await User.findOne({
       where: {
         email: req.body.email,
@@ -48,11 +50,15 @@ router.post('/login', async (req, res) => {
       return;
     }
 
+    const userData = dbUserData.get({plain: true});
+
+    console.log(userData);
+
     req.session.save(() => {
       req.session.loggedIn = true;
       res
         .status(200)
-        .json({ user: dbUserData, message: 'You are now logged in!' });
+        .json({ userID: userData.id, message: 'You are now logged in!' });
     });
   } catch (err) {
     console.log(err);

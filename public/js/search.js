@@ -1,5 +1,3 @@
-console.log("search");
-
 const searchHandler = async (event) => {
     event.preventDefault();  
     const artist = document.querySelector("#srch").value.trim();
