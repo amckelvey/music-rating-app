@@ -33,7 +33,8 @@ router.get('/', spotifyAuth, async (req, res) => {
       newReleases.push(myObj);
     }
     const reponseObj = {
-      newReleases
+      newReleases,
+      loggedIn: req.session.loggedIn ? true : false
     }
     res.render('homepage', reponseObj);
   } catch (err) {
