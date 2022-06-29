@@ -38,8 +38,8 @@
         <li><a href="#footer">Contact</a></li>
         {{! <li><a href="../login">Log-in</a></li> }}
 
-        {{#if logged_in}}
-          <li><a href="#">Logout</a></li>
+        {{#if loggedIn}}
+          <li><a href="#" id="logout">Logout</a></li>
         {{else}}
           <li><a href="../login">Log In</a></li>
         {{/if}}
@@ -104,7 +104,7 @@
       </div>
     </footer>
     <script src="/js/search.js"></script>
-    {{#if logged_in}}
+    {{#if loggedIn}}
       <script src="/js/logout.js"></script>
     {{/if}}
 
