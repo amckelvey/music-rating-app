@@ -16,8 +16,7 @@ router.post('/', async (req, res) => {
 
     req.session.save(() => {
       req.session.loggedIn = true;
-      req.session.userID = userData;
-      res.status(200).json(dbUserData);
+      res.status(200).json(userData);
     });
   } catch (err) {
     console.log(err);
@@ -51,11 +50,15 @@ router.post('/login', async (req, res) => {
       return;
     }
 
+    const userData = dbUserData.get({plain: true});
+
+    console.log(userData);
+
     req.session.save(() => {
       req.session.loggedIn = true;
       res
         .status(200)
-        .json({ user: dbUserData, message: 'You are now logged in!' });
+        .json({ userID: userData.id, message: 'You are now logged in!' });
     });
   } catch (err) {
     console.log(err);
@@ -65,7 +68,6 @@ router.post('/login', async (req, res) => {
 
 // Logout
 router.post('/logout', (req, res) => {
-  console.log("IN THE BACK END");
   if (req.session.loggedIn) {
     req.session.destroy(() => {
       res.status(204).end();
