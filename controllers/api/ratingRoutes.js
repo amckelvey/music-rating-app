@@ -58,7 +58,7 @@ router.get('/user/:album_id', withAuth, async (req, res) => {
   }
 });
 
-// POST /api/rating/
+// POST /api/ratings/
 // Receives rating info in the request
 // checks if the user is logged in
 // creates a new rating
@@ -66,7 +66,13 @@ router.get('/user/:album_id', withAuth, async (req, res) => {
 router.post('/', withAuth, async (req, res) => {
   // create a new category
   try {
-    const ratingData = await Rating.create(req.body);
+    const ratingData = await Rating.create({
+      user_id: req.session.userID,
+      album_id: req.body.album_id,
+      artist_id: req.body.artist_id,
+      score: req.body.score
+    });
+    console.log(ratingData);
     res.status(200).json(ratingData);
   } catch (err) {
       res.status(500).json(err);
