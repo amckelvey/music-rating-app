@@ -36,14 +36,14 @@ router.get('/average/:album_id', async (req, res) => {
 // uses findOne
 // returns rating object for the one album, excluding the review
 // req.params.album_id
-router.get('/:user_id/:album_id', async (req, res) => {
+router.get('/user/:album_id', withAuth, async (req, res) => {
   try {
     console.log("Get Ratings for album");
     const ratingData = await Rating.findOne({
       attributes: {exclude: ['review']},
       where: {
         album_id: req.params.album_id,
-        user_id: req.params.user_id
+        user_id: req.session.userID
       }
     });
     if (!ratingData) {
@@ -58,15 +58,21 @@ router.get('/:user_id/:album_id', async (req, res) => {
   }
 });
 
-// POST /api/rating/
+// POST /api/ratings/
 // Receives rating info in the request
 // checks if the user is logged in
 // creates a new rating
 // needs withAuth included
-router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
   // create a new category
   try {
-    const ratingData = await Rating.create(req.body);
+    const ratingData = await Rating.create({
+      user_id: req.session.userID,
+      album_id: req.body.album_id,
+      artist_id: req.body.artist_id,
+      score: req.body.score
+    });
+    console.log(ratingData);
     res.status(200).json(ratingData);
   } catch (err) {
       res.status(500).json(err);
@@ -80,7 +86,7 @@ router.post('/', async (req, res) => {
 // checks if the user is logged in
 // updates an existing rating
 // needs withAuth included
-router.put('/:id', async (req, res) => {
+router.put('/:id', withAuth, async (req, res) => {
   // update a category by its `id` value
   try {
     const ratingData = await Rating.update(req.body, {

@@ -7,6 +7,7 @@ const { Op } = require("sequelize");
 // GET http://localhost:3001/
 router.get('/', spotifyAuth, async (req, res) => {
   console.log("In the home route");
+  console.log("req.session.loggedIn:", req.session.loggedIn);
   // get decorative new releases data from spotify and render it
   try {
     const spotifyApi = new SpotifyWebApi({
@@ -48,6 +49,7 @@ router.get('/', spotifyAuth, async (req, res) => {
 // Receives an artist id
 router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
   console.log("In the artist route");
+  console.log("req.session.loggedIn:", req.session.loggedIn);
   try {
     const spotifyApi = new SpotifyWebApi({
       clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -72,6 +74,7 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
         }
       });
       let scores = scoreData.map((score) => score.score);
+
       if (scoreData.length > 0) {
         let total = 0;
         for(let i = 0; i < scores.length; i++) {
@@ -79,12 +82,12 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
         }
         const rawAvg = total / scores.length;
         // returns the average score of that album
-        const average = Math.round(rawAvg * 10) / 10;
+        var average = Math.round(rawAvg * 10) / 10;
       } else {
         var average = null;
       }
 
-      let userScore = null;
+      let userScore = false;
       if (req.session.loggedIn) {
         // a the logged in user's rating of a current album
         const userID = req.session.userID;
@@ -147,6 +150,7 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
       artistData: artistInfo,
       loggedIn: req.session.loggedIn ? true : false
     }
+    console.log(responseObj);
     // ===========================================================
     // NOTE!!!!! CHANGE TO RES.RENDER WHEN TESTING WITH HANDLEBARS
     // ===========================================================
@@ -243,12 +247,14 @@ function millisToMinutesAndSeconds(millis) {
 
 router.get('/login', (req, res) => {
   // if we go to login and we are already logged in we get redirected to home
-  if (req.session.logged_in) {
+  if (req.session.loggedIn) {
     res.redirect('/');
     return;
   }
 
-  res.render('login');
+  res.render('login', {
+    loggedIn: req.session.loggedIn ? true : false
+  });
 });
 
 router.get('')

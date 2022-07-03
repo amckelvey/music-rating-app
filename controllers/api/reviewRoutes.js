@@ -40,7 +40,7 @@ router.get('/:album_id', async (req, res) => {
 // GET /api/review/:user/:album_id
 // user_id would passed in via the request object
 // returns the id, text body of a review for that album and user
-router.get('/:user_id/:album_id', async (req, res) => {
+router.get('/user/:album_id', async (req, res) => {
   try {
     console.log("Get Reviews for album by user user_id");
     const reviewData = await Rating.findOne({

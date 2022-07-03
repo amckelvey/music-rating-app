@@ -5,15 +5,20 @@
   <img src="{{album.albumArtMedium}}" class="card-img-top" alt="..." />
   </a>
   <div class="card-body">
-    <p class="card-text">Album Name: {{album.albumTitle}}</p>
-    <p class="card-text">Artist Name: {{album.name}}</p>
+    <p class="card-text">{{album.albumTitle}} by {{artistData.name}}</p>
     <p class="card-text">Release Date: {{album.releaseDate}}</p>
-    {{!-- <p class="card-text">Album ID: {{album.albumID}}</p> --}}
+    {{#if album.averageRating}}
+    <p class="card-text">Average Rating: {{album.averageRating}}</p>
+    {{/if}}
+    <p class="card-text">{{album.numRatings}} Votes</p>
     <label for="pet-select">Choose a rating:</label>
 
-    <select name="rating" id="album-rating" data-albumID="{{album.albumID}}" data-aristID="{{album.artistID}}" onChange="onRating">
+    <select name="rating" class="album-rating" data-albumID="{{album.albumID}}" data-aristID="{{album.artistID}}">
+      {{!-- {{#if album.userScore}}
+        {{#select album.userScore}}
+      {{/if}} --}}
       <option value="">Choose a rating:</option>
-      <option value="1">1</option>
+      <option value="1">1</option>  
       <option value="2">2</option>
       <option value="3">3</option>
       <option value="4">4</option>
@@ -23,6 +28,9 @@
       <option value="8">8</option>
       <option value="9">9</option>
       <option value="10">10</option>
+      {{!-- {{#if album.userScore}}
+        {{/select}}
+      {{/if}} --}}
     </select>
   </div>
 </div>
