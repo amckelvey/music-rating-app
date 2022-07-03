@@ -87,19 +87,19 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
         var average = null;
       }
 
-      let userScore = false;
+      let userRating = false;
       if (req.session.loggedIn) {
         // a the logged in user's rating of a current album
         const userID = req.session.userID;
         const ratingData = await Rating.findOne({
-          attributes: ['score'],
           where: {
             album_id: albumID,
             user_id: userID
           }
         });
         if(ratingData){
-          userScore = ratingData.get({ plain: true });
+          userRating = ratingData.get({ plain: true });
+          console.log(userRating);
         }
         
       }
@@ -114,7 +114,7 @@ router.get('/artist/:artist_id', spotifyAuth, async (req, res) => {
         averageRating: average,
         // also return number of votes
         numRatings: scores.length,
-        userScore: userScore
+        userRating: userRating
       }
       artistAlbums.push(myObj);
     }

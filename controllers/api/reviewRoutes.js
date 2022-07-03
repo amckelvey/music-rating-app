@@ -40,7 +40,7 @@ router.get('/:album_id', async (req, res) => {
 // GET /api/review/:user/:album_id
 // user_id would passed in via the request object
 // returns the id, text body of a review for that album and user
-router.get('/user/:album_id', async (req, res) => {
+router.get('/user/:album_id', withAuth, async (req, res) => {
   try {
     console.log("Get Reviews for album by user user_id");
     const reviewData = await Rating.findOne({
@@ -71,7 +71,7 @@ router.get('/user/:album_id', async (req, res) => {
 // user needs to be logged in
 // creates a new review
 // needs withAuth middleware to reroute to the login page if the user isn't logged in
-router.post('/', /*withAuth,*/ async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
   // create a new category
   try {
     const reviewData = await Rating.create(req.body);
@@ -87,7 +87,7 @@ router.post('/', /*withAuth,*/ async (req, res) => {
 // user needs to be logged in
 // setting a review to null
 // needs withAuth middleware to reroute to the login page if the user isn't logged in
-router.delete('/:rating_id', /*withAuth,*/ async (req, res) => {
+router.delete('/:rating_id', withAuth, async (req, res) => {
   // delete one product by its `id` value
   try {
     const reviewData = await Rating.update({ review: null }, {

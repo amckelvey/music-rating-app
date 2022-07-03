@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/css/artistpage.css" />
+{{!-- <h1>{{artistData.name}}</h1> --}}
 {{#each artistAlbums as |album|}}
 <div class="column">
   <a href="/album/{{album.albumID}}">
@@ -13,10 +14,11 @@
     <p class="card-text">{{album.numRatings}} Votes</p>
     <label for="pet-select">Choose a rating:</label>
 
-    <select name="rating" class="album-rating" data-albumID="{{album.albumID}}" data-aristID="{{album.artistID}}">
-      {{!-- {{#if album.userScore}}
-        {{#select album.userScore}}
-      {{/if}} --}}
+    <select name="rating" class="album-rating" data-albumID="{{album.albumID}}" data-aristID="{{album.artistID}}"
+      {{#if album.userRating}}
+      data-ratingid="{{album.userRating.id}}" data-userscore="{{album.userRating.score}}"
+      {{/if}}
+      >
       <option value="">Choose a rating:</option>
       <option value="1">1</option>  
       <option value="2">2</option>
@@ -28,9 +30,6 @@
       <option value="8">8</option>
       <option value="9">9</option>
       <option value="10">10</option>
-      {{!-- {{#if album.userScore}}
-        {{/select}}
-      {{/if}} --}}
     </select>
   </div>
 </div>
