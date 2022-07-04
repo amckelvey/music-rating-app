@@ -42,12 +42,12 @@ router.get('/:album_id', async (req, res) => {
 // returns the id, text body of a review for that album and user
 router.get('/user/:album_id', withAuth, async (req, res) => {
   try {
-    console.log("Get Reviews for album by user user_id");
+    console.log(`Get Reviews for album by user ${req.session.userID}`);
     const reviewData = await Rating.findOne({
       attributes: [['id','rating_id'],'score', 'review'],
       where: {
         album_id: req.params.album_id,
-        user_id: req.params.user_id
+        user_id: req.session.userID
       },
       include: [{
         model: User,
@@ -72,13 +72,42 @@ router.get('/user/:album_id', withAuth, async (req, res) => {
 // creates a new review
 // needs withAuth middleware to reroute to the login page if the user isn't logged in
 router.post('/', withAuth, async (req, res) => {
-  // create a new category
   try {
-    const reviewData = await Rating.create(req.body);
-    res.status(200).json(reviewData);
+    const ratingData = await Rating.create({
+      user_id: req.session.userID,
+      album_id: req.body.album_id,
+      artist_id: req.body.artist_id,
+      score: req.body.score,
+      review: req.body.review
+    });
+    console.log(ratingData);
+    res.status(200).json(ratingData);
   } catch (err) {
       res.status(500).json(err);
       console.log(err);
+  }
+});
+
+// PUT /api/review/:id
+// Receives a rating id, will need to check the user_id and album_id
+// checks if the user is logged in
+// updates an existing review
+// needs withAuth included
+router.put('/:id', withAuth, async (req, res) => {
+  // update a category by its `id` value
+  try {
+    const ratingData = await Rating.update(req.body, {
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!ratingData[0]) {
+      res.status(404).json({ message: 'No Review with this id!'});
+      return;
+    }
+    res.status(200).json(ratingData);
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 

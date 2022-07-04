@@ -1,6 +1,9 @@
 /* Style inputs, select elements and textareas */
 input[type="text"],
 select,
+/* main {
+  margin-left: 10px
+} */
 textarea {
   width: 100%;
   padding: 12px;
@@ -31,15 +34,16 @@ input[type="submit"] {
 .container {
   border-radius: 5px;
   background: rgba(0, 0, 0, 0.5);
+  margin-left: 20px;
   padding: 20px;
-  width: 40%;
+  width: 60%;
 }
 
 /* Floating column for labels: 25% width */
 .col-25 {
   float: left;
   width: 25%;
-  margin-top: 6px;
+  /* margin-top: 6px; */
 }
 
 /* Floating column for inputs: 75% width */
@@ -56,6 +60,19 @@ input[type="submit"] {
   clear: both;
 }
 
+.leave-your-review{
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.album-info{
+  margin: 20px;
+}
+
+#rating-box{
+  margin-top: 10px;
+}
+
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
   .col-25,
@@ -66,5 +83,5 @@ input[type="submit"] {
   }
 }
 section {
-  margin-top: 75px;
+  margin-top: 40px;
 }
