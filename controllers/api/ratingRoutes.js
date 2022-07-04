@@ -81,7 +81,7 @@ router.post('/', withAuth, async (req, res) => {
 
 
 // PUT /api/rating/:id
-// Receives rating a rating id, will need to check the user_id and album_id
+// Receives a rating id, will need to check the user_id and album_id
 // checks if the user is logged in
 // updates an existing rating
 // needs withAuth included
