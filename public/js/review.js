@@ -1,27 +1,32 @@
-console.log("rating.js");
+console.log("In review.js");
 
-// checks if the user has existing scores for any of the rendered albums
-const userRatings = document.querySelectorAll('[data-ratingid]');
+const ratingSelect = document.getElementById('rating');
+const reviewForm = document.getElementById('review-form')
+console.log(ratingSelect);
 
-//
-userRatings.forEach(element => {
-  const score = element.dataset.userscore;
-  element.value = score;
-});
+if (typeof(ratingSelect.dataset.ratingid) != "undefined") {
+  const score = ratingSelect.dataset.userscore;
+  ratingSelect.value = score;
+}
 
-const ratingHandler = async (event) => {
+const reviewHandler = async (event) => {
   event.preventDefault();
-  console.log("ratingHandler");
-  const ratingSelect = event.target;
+  console.log("reviewHandler");
   const album_id = ratingSelect.getAttribute("data-albumID");
   const artist_id = ratingSelect.getAttribute("data-aristID");
   const score = ratingSelect.value;
+  let review = document.getElementById("review-text").value;
   if (score == "") {
       //delete rating
-      return;
+      alert("You must select a rating");
+      location.reload();
   }
 
-  let body = JSON.stringify({ album_id, artist_id, score });
+  if (review == "") {
+    review = null;
+  }
+  console.log("review:", review);
+  let body = JSON.stringify({ album_id, artist_id, score, review });
   let response;
   if (typeof(ratingSelect.dataset.ratingid) != "undefined") {
     const ratingID = ratingSelect.dataset.ratingid;
@@ -42,13 +47,10 @@ const ratingHandler = async (event) => {
   if (resJson == "Log In") {
     document.location.replace("/login");
   } else if (response.ok) {
-    document.location.replace(`/artist/${artist_id}`);
+    location.reload();;
   } else {
     alert("Failed to save rating");
   } 
 };
 
-var elements = document.getElementsByClassName("album-rating");
-for (let i = 0; i < elements.length; i++) {
-  elements[i].addEventListener("change", ratingHandler, false);
-}
+reviewForm.addEventListener("submit", reviewHandler);

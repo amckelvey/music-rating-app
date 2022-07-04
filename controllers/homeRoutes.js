@@ -187,6 +187,25 @@ router.get('/album/:album_id', spotifyAuth, async (req, res) => {
       myArray.push(myObj);
     }
 
+    let userReview = null;
+    if (req.session.loggedIn) {
+      const reviewData = await Rating.findOne({
+        attributes: [['id','rating_id'],'score', 'review'],
+        where: {
+          album_id: albumId,
+          user_id: req.session.userID
+        },
+        include: [{
+          model: User,
+          attributes: [['id','user_id'], 'username']
+        }],
+      });
+      userReview = reviewData.get({ plain: true });
+    }
+
+    console.log("userReview:");
+    console.log(userReview);
+
     const albumInfo = {
       albumID: albumData.body.id,
       albumTitle: albumData.body.name,
@@ -224,7 +243,8 @@ router.get('/album/:album_id', spotifyAuth, async (req, res) => {
       albumInfo: albumInfo,
       tracks: myArray,
       reviews: reviews,
-      loggedIn: req.session.loggedIn ? true : false
+      loggedIn: req.session.loggedIn ? true : false,
+      userReview: userReview
     }
 
     // ===========================================================

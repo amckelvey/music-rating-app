@@ -64,7 +64,6 @@ router.get('/user/:album_id', withAuth, async (req, res) => {
 // creates a new rating
 // needs withAuth included
 router.post('/', withAuth, async (req, res) => {
-  // create a new category
   try {
     const ratingData = await Rating.create({
       user_id: req.session.userID,
