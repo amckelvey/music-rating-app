@@ -10,9 +10,6 @@ const loginFormHandler = async (event) => {
       headers: { "Content-Type": "application/json" },
     });
 
-    // const resJson = await response.json(); 
-    // console.log("userID:", resJson.userID);
-
     if (response.ok) {
       document.location.replace("/");
     } else {
@@ -34,8 +31,6 @@ const signupFormHandler = async (event) => {
       headers: { "Content-Type": "application/json" },
     });
     const resJson = await response.json(); 
-
-    console.log("userID:", resJson.userID);
     if (response.ok) {
       document.location.replace("/");
     } else {

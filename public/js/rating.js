@@ -1,5 +1,3 @@
-console.log("rating.js");
-
 // checks if the user has existing scores for any of the rendered albums
 const userRatings = document.querySelectorAll('[data-ratingid]');
 
@@ -11,7 +9,6 @@ userRatings.forEach(element => {
 
 const ratingHandler = async (event) => {
   event.preventDefault();
-  console.log("ratingHandler");
   const ratingSelect = event.target;
   const album_id = ratingSelect.getAttribute("data-albumID");
   const artist_id = ratingSelect.getAttribute("data-aristID");
@@ -38,7 +35,6 @@ const ratingHandler = async (event) => {
     });  
   }
   const resJson = await response.json(); 
-  console.log("resJon:", resJson);
   if (resJson == "Log In") {
     document.location.replace("/login");
   } else if (response.ok) {

@@ -1,8 +1,5 @@
-console.log("In review.js");
-
 const ratingSelect = document.getElementById('rating');
 const reviewForm = document.getElementById('review-form')
-console.log(ratingSelect);
 
 if (typeof(ratingSelect.dataset.ratingid) != "undefined") {
   const score = ratingSelect.dataset.userscore;
@@ -11,7 +8,6 @@ if (typeof(ratingSelect.dataset.ratingid) != "undefined") {
 
 const reviewHandler = async (event) => {
   event.preventDefault();
-  console.log("reviewHandler");
   const album_id = ratingSelect.getAttribute("data-albumID");
   const artist_id = ratingSelect.getAttribute("data-aristID");
   const score = ratingSelect.value;
@@ -25,7 +21,6 @@ const reviewHandler = async (event) => {
   if (review == "") {
     review = null;
   }
-  console.log("review:", review);
   let body = JSON.stringify({ album_id, artist_id, score, review });
   let response;
   if (typeof(ratingSelect.dataset.ratingid) != "undefined") {
@@ -43,7 +38,6 @@ const reviewHandler = async (event) => {
     });  
   }
   const resJson = await response.json(); 
-  console.log("resJon:", resJson);
   if (resJson == "Log In") {
     document.location.replace("/login");
   } else if (response.ok) {
